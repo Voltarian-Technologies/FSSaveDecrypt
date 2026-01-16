@@ -87,7 +87,7 @@
                 <span class="operation-title">SELECT .SAV FILE</span>
               </div>
               <div class="file-input-wrapper">
-                <input type="file" id="sav_file2" name="sav_file2" accept=".sav" class="pipboy-input">
+                <input hidden type="file" id="sav_file2" name="sav_file2" accept=".sav" class="pipboy-input">
                 <label for="sav_file2" class="file-input-label">
                   <span class="file-icon">◐</span>
                   <span class="file-text">CHOOSE FILE</span>
@@ -113,7 +113,7 @@
                 <span class="operation-title">SELECT .JSON FILE</span>
               </div>
               <div class="file-input-wrapper">
-                <input type="file" id="json_file2" name="json_file2" accept=".json" class="pipboy-input">
+                <input hidden type="file" id="json_file2" name="json_file2" accept=".json" class="pipboy-input">
                 <label for="json_file2" class="file-input-label">
                   <span class="file-icon">◐</span>
                   <span class="file-text">CHOOSE FILE</span>
@@ -262,10 +262,10 @@
     }
     
     // Create random scan bars periodically
-    setInterval(createRandomScanBar, 3000 + Math.random() * 2000);
+    setInterval(createRandomScanBar, 30000 + Math.random() * 30000);
     
     // Create initial scan bar after a short delay
-    setTimeout(createRandomScanBar, 1000);
+    setTimeout(createRandomScanBar, 5000);
   </script>
 </body>
 </html>
