@@ -153,9 +153,46 @@ body::after {
   animation: scanlines 8s linear infinite;
 }
 
+.pipboy-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 255, 0, 0.8) 45%, 
+    rgba(0, 255, 0, 1) 50%, 
+    rgba(0, 255, 0, 0.8) 55%, 
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+  animation: randomScan 3s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
 @keyframes scanlines {
   0% { background-position: 0 0; }
   100% { background-position: 0 10px; }
+}
+
+@keyframes randomScan {
+  0% { 
+    top: 0%; 
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    top: 100%; 
+    opacity: 0;
+  }
 }
 
 /* Header */

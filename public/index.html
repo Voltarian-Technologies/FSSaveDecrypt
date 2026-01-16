@@ -200,6 +200,72 @@
         label.querySelector('.file-text').textContent = fileName;
       });
     });
+
+    // Random scanning bar effect
+    function createRandomScanBar() {
+      const screen = document.querySelector('.pipboy-screen');
+      const scanBar = document.createElement('div');
+      scanBar.style.cssText = `
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, 
+          transparent 0%, 
+          rgba(0, 255, 0, 0.6) 40%, 
+          rgba(0, 255, 0, 1) 50%, 
+          rgba(0, 255, 0, 0.6) 60%, 
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: 4;
+        box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+        opacity: 0;
+      `;
+      
+      screen.appendChild(scanBar);
+      
+      // Random position and animation
+      const randomStart = Math.random() * 100;
+      const randomDuration = 2 + Math.random() * 3; // 2-5 seconds
+      const randomDelay = Math.random() * 4; // 0-4 seconds delay
+      
+      scanBar.style.animation = `scanBarMove ${randomDuration}s ease-in-out ${randomDelay}s`;
+      
+      // Create keyframes for this specific bar
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+        @keyframes scanBarMove {
+          0% { 
+            top: ${randomStart}%; 
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% { 
+            top: ${randomStart > 50 ? 0 : 100}%; 
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+      
+      // Remove bar and stylesheet after animation
+      setTimeout(() => {
+        scanBar.remove();
+        styleSheet.remove();
+      }, (randomDuration + randomDelay) * 1000);
+    }
+    
+    // Create random scan bars periodically
+    setInterval(createRandomScanBar, 3000 + Math.random() * 2000);
+    
+    // Create initial scan bar after a short delay
+    setTimeout(createRandomScanBar, 1000);
   </script>
 </body>
 </html>
