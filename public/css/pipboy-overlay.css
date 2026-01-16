@@ -1,5 +1,105 @@
 /* Pip-Boy 4000 Overlay Screen Styles */
 
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* CRT Animation Keyframes */
+@keyframes flicker {
+  0% { opacity: 0.27861; }
+  5% { opacity: 0.34769; }
+  10% { opacity: 0.23604; }
+  15% { opacity: 0.90626; }
+  20% { opacity: 0.18128; }
+  25% { opacity: 0.83891; }
+  30% { opacity: 0.65583; }
+  35% { opacity: 0.67807; }
+  40% { opacity: 0.26559; }
+  45% { opacity: 0.84693; }
+  50% { opacity: 0.96019; }
+  55% { opacity: 0.08594; }
+  60% { opacity: 0.20313; }
+  65% { opacity: 0.71988; }
+  70% { opacity: 0.53455; }
+  75% { opacity: 0.37288; }
+  80% { opacity: 0.71428; }
+  85% { opacity: 0.70419; }
+  90% { opacity: 0.7003; }
+  95% { opacity: 0.36108; }
+  100% { opacity: 0.24387; }
+}
+
+@keyframes textShadow {
+  0% { text-shadow: 0.43899px 0 1px rgba(0,30,255,0.5), -0.43899px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  5% { text-shadow: 2.79236px 0 1px rgba(0,30,255,0.5), -2.79236px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  10% { text-shadow: 0.02956px 0 1px rgba(0,30,255,0.5), -0.02956px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  15% { text-shadow: 0.40219px 0 1px rgba(0,30,255,0.5), -0.40219px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  20% { text-shadow: 3.4794px 0 1px rgba(0,30,255,0.5), -3.4794px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  25% { text-shadow: 1.61256px 0 1px rgba(0,30,255,0.5), -1.61256px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  30% { text-shadow: 0.70155px 0 1px rgba(0,30,255,0.5), -0.70155px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  35% { text-shadow: 3.8969px 0 1px rgba(0,30,255,0.5), -3.8969px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  40% { text-shadow: 3.8709px 0 1px rgba(0,30,255,0.5), -3.8709px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  45% { text-shadow: 2.23105px 0 1px rgba(0,30,255,0.5), -2.23105px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  50% { text-shadow: 4.08359px 0 1px rgba(0,30,255,0.5), -4.08359px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  55% { text-shadow: 2.38775px 0 1px rgba(0,30,255,0.5), -2.38775px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  60% { text-shadow: 1.71916px 0 1px rgba(0,30,255,0.5), -1.71916px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  65% { text-shadow: 0.08436px 0 1px rgba(0,30,255,0.5), -0.08436px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  70% { text-shadow: 4.10375px 0 1px rgba(0,30,255,0.5), -4.10375px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  75% { text-shadow: 1.99719px 0 1px rgba(0,30,255,0.5), -1.99719px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  80% { text-shadow: 1.46053px 0 1px rgba(0,30,255,0.5), -1.46053px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  85% { text-shadow: 0.54054px 0 1px rgba(0,30,255,0.5), -0.54054px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  90% { text-shadow: 4.08629px 0 1px rgba(0,30,255,0.5), -4.08629px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  95% { text-shadow: 3.04552px 0 1px rgba(0,30,255,0.5), -3.04552px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+  100% { text-shadow: 0.02756px 0 1px rgba(0,30,255,0.5), -0.02756px 0 1px rgba(255,0,80,0.3), 0 0 3px; }
+}
+
+/* Base Styles */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'VT323', monospace;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+body {
+  background: #0a0a0a;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+  position: relative;
+}
+
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
+body::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
 .pipboy-overlay-container {
   position: absolute;
   top: 0;
@@ -8,17 +108,293 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
+  background: url('/img/pipboy.png') no-repeat center;
+  background-size: contain;
+}
+
+/* Main Pip-Boy Interface */
+.pipboy-frame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 600px;
+  background: transparent;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.pipboy-screen {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.pipboy-header {
+  height: 50px;
+  background: rgba(42, 63, 42, 0.9);
+  border-bottom: 2px solid #4a5f4a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 10;
+  position: relative;
+  border-radius: 15px 15px 0 0;
+}
+
+.pipboy-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #7fff00;
+  box-shadow: 0 0 10px rgba(127, 255, 0, 0.8);
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.online {
+  background: #7fff00;
+}
+
+.status-text {
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(127, 255, 0, 0.8);
+}
+
+.pipboy-time {
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  text-shadow: 0 0 10px rgba(127, 255, 0, 0.8);
+}
+
+/* Navigation */
+.pipboy-nav {
+  height: 60px;
+  background: rgba(31, 47, 31, 0.9);
+  border-bottom: 2px solid #4a5f4a;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 5px;
+  z-index: 10;
+  position: relative;
+}
+
+.nav-section {
+  flex: 1;
+  height: 50px;
+  background: rgba(26, 47, 26, 0.9);
+  border: 2px solid #4a5f4a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 15;
+}
+
+.nav-section:hover {
+  background: rgba(42, 63, 42, 0.9);
+  border-color: #7fff00;
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.5);
+}
+
+.nav-section.active {
+  background: rgba(42, 63, 42, 0.9);
+  border-color: #7fff00;
+  box-shadow: 0 0 20px rgba(127, 255, 0, 0.7);
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  font-size: 20px;
+  color: #7fff00;
+  text-shadow: 0 0 8px rgba(127, 255, 0, 0.8);
+  margin-bottom: 2px;
+}
+
+.nav-label {
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(127, 255, 0, 0.6);
+}
+
+.nav-section:hover .nav-label,
+.nav-section.active .nav-label {
+  color: #adff2f;
+}
+
+/* Content Area */
+.pipboy-content {
+  height: calc(100% - 160px);
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.content-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  display: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4a5f4a #1a2f1a;
+  background: rgba(26, 47, 26, 0.8);
+  border-radius: 0 0 15px 15px;
+}
+
+.content-section.active {
+  display: block;
+}
+
+.content-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-section::-webkit-scrollbar-track {
+  background: rgba(26, 47, 26, 0.5);
+}
+
+.content-section::-webkit-scrollbar-thumb {
+  background: #4a5f4a;
+  border-radius: 4px;
+}
+
+.section-header h2 {
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 15px rgba(127, 255, 0, 0.8);
+}
+
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, #4a5f4a 0%, #7fff00 50%, #4a5f4a 100%);
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(127, 255, 0, 0.5);
+}
+
+/* Footer */
+.pipboy-footer {
+  height: 50px;
+  background: rgba(42, 63, 42, 0.9);
+  border-top: 2px solid #4a5f4a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 10;
+  position: relative;
+  border-radius: 0 0 15px 15px;
+}
+
+.footer-text {
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(127, 255, 0, 0.5);
+}
+
+/* Form Controls */
+.form-control {
+  background: rgba(42, 63, 42, 0.9);
+  border: 2px solid #4a5f4a;
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.form-control:focus {
+  border-color: #7fff00;
+  box-shadow: 0 0 10px rgba(127, 255, 0, 0.3);
+  outline: none;
+  background: rgba(42, 63, 42, 0.9);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: rgba(42, 63, 42, 0.9);
+  border-color: #4a5f4a;
+  color: #7fff00;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(127, 255, 0, 0.5);
+  border-radius: 4px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: rgba(58, 79, 58, 0.9);
+  border-color: #7fff00;
+  color: #adff2f;
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-primary:focus {
+  background-color: rgba(58, 79, 58, 0.9);
+  border-color: #7fff00;
+  color: #adff2f;
+  box-shadow: 0 0 20px rgba(127, 255, 0, 0.7);
+  outline: none;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
 
 .pipboy-screen-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 60%;
   background: #0a1a0a;
   color: #00ff00;
   font-family: 'VT323', monospace;
   overflow: hidden;
-  opacity: 0.3;
+  opacity: 0.9;
+  border-radius: 8px;
+  box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2);
 }
 
 /* Vault Boy Character */
@@ -205,21 +581,6 @@
   20% { opacity: 1; transform: translateY(0); }
   80% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-10px); }
-}
-
-/* Pip-Boy Screen Outline */
-.pipboy-screen-content::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('/img/pipboy.png') no-repeat center;
-  background-size: cover;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.8;
 }
 
 /* CRT Effect Overlay */
