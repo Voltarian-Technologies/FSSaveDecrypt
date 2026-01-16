@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=no">
-  <title>PIP-BOY 3000 - FSSaveDecrypt</title>
-  <meta name="description" content="Vault-Tec Pip-Boy 3000 Save File Interface">
+  <title>PIP-BOY 55D - FSSaveDecrypt</title>
+  <meta name="description" content="Vault-Tec Pip-Boy 55D Save File Interface">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -135,7 +135,7 @@
           <div class="about-content">
             <div class="about-item">
               <span class="about-label">DEVICE:</span>
-              <span class="about-value">PIP-BOY 3000</span>
+              <span class="about-value">PIP-BOY 55D</span>
             </div>
             <div class="about-item">
               <span class="about-label">MANUFACTURER:</span>
@@ -212,71 +212,6 @@
       });
     });
 
-    // Random scanning bar effect
-    function createRandomScanBar() {
-      const screen = document.querySelector('.pipboy-screen');
-      const scanBar = document.createElement('div');
-      scanBar.style.cssText = `
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, 
-          transparent 0%, 
-          rgba(0, 255, 0, 0.6) 40%, 
-          rgba(0, 255, 0, 1) 50%, 
-          rgba(0, 255, 0, 0.6) 60%, 
-          transparent 100%
-        );
-        pointer-events: none;
-        z-index: 4;
-        box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
-        opacity: 0;
-      `;
-      
-      screen.appendChild(scanBar);
-      
-      // Random position and animation
-      const randomStart = Math.random() * 100;
-      const randomDuration = 2 + Math.random() * 3; // 2-5 seconds
-      const randomDelay = Math.random() * 4; // 0-4 seconds delay
-      
-      scanBar.style.animation = `scanBarMove ${randomDuration}s ease-in-out ${randomDelay}s`;
-      
-      // Create keyframes for this specific bar
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        @keyframes scanBarMove {
-          0% { 
-            top: ${randomStart}%; 
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% { 
-            top: ${randomStart > 50 ? 0 : 100}%; 
-            opacity: 0;
-          }
-        }
-      `;
-      document.head.appendChild(styleSheet);
-      
-      // Remove bar and stylesheet after animation
-      setTimeout(() => {
-        scanBar.remove();
-        styleSheet.remove();
-      }, (randomDuration + randomDelay) * 1000);
-    }
-    
-    // Create random scan bars periodically
-    setInterval(createRandomScanBar, 30000 + Math.random() * 30000);
-    
-    // Create initial scan bar after a short delay
-    setTimeout(createRandomScanBar, 5000);
   </script>
 </body>
 </html>
