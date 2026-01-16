@@ -469,7 +469,11 @@ body::after {
 }
 
 .pipboy-input {
-  display: none;
+  /* File inputs are hidden via HTML hidden attribute, not CSS */
+  visibility: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
 .file-input-label {
