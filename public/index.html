@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=no">
-  <title>PIP-BOY 55D - FSSaveDecrypt</title>
-  <meta name="description" content="Vault-Tec Pip-Boy 55D Save File Interface">
+  <title>PIP-BOY 55</title>
+  <meta name="description" content="Pip-Boy 55, The Fallout Shelter Save Editor">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -31,13 +31,9 @@
           <span class="nav-icon">▣</span>
           <span class="nav-label">STATUS</span>
         </div>
-        <div class="nav-section" data-section="decrypt">
+        <div class="nav-section" data-section="editor">
           <span class="nav-icon">◈</span>
-          <span class="nav-label">DECRYPT</span>
-        </div>
-        <div class="nav-section" data-section="encrypt">
-          <span class="nav-icon">◉</span>
-          <span class="nav-label">ENCRYPT</span>
+          <span class="nav-label">SAVE EDITOR</span>
         </div>
         <div class="nav-section" data-section="about">
           <span class="nav-icon">◉</span>
@@ -54,7 +50,7 @@
           <div class="status-grid">
             <div class="status-item">
               <span class="status-label">VAULT ID:</span>
-              <span class="status-value">55</span>
+              <span class="status-value">000</span>
             </div>
             <div class="status-item">
               <span class="status-label">SYSTEM:</span>
@@ -75,9 +71,9 @@
           </div>
         </div>
 
-        <div class="content-section" id="decrypt-section">
+        <div class="content-section" id="editor-section">
           <div class="section-header">
-            <h2>DECRYPT SAVE FILE</h2>
+            <h2>SAVE EDITOR</h2>
             <div class="divider"></div>
           </div>
           <div class="file-operations">
@@ -87,46 +83,48 @@
                 <span class="operation-title">SELECT .SAV FILE</span>
               </div>
               <div class="file-input-wrapper">
-                <input hidden type="file" id="sav_file2" name="sav_file2" accept=".sav" class="pipboy-input">
-                <label for="sav_file2" class="file-input-label">
+                <input hidden type="file" id="sav_file" name="sav_file" accept=".sav" class="pipboy-input">
+                <label for="sav_file" class="file-input-label">
                   <span class="file-icon">◐</span>
                   <span class="file-text">CHOOSE FILE</span>
                 </label>
               </div>
               <div class="operation-info">
-                <p>Decrypts Fallout Shelter save files to JSON format</p>
+                <p>Load and edit Fallout Shelter save files</p>
                 <p class="file-type">Supported: .sav files</p>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="content-section" id="encrypt-section">
-          <div class="section-header">
-            <h2>ENCRYPT SAVE FILE</h2>
-            <div class="divider"></div>
-          </div>
-          <div class="file-operations">
-            <div class="operation-box">
+            
+            <div class="operation-box" id="resource-editor" style="display: none;">
               <div class="operation-header">
-                <span class="operation-icon">◉</span>
-                <span class="operation-title">SELECT .JSON FILE</span>
+                <span class="operation-icon">◈</span>
+                <span class="operation-title">EDIT RESOURCES</span>
               </div>
-              <div class="file-input-wrapper">
-                <input hidden type="file" id="json_file2" name="json_file2" accept=".json" class="pipboy-input">
-                <label for="json_file2" class="file-input-label">
-                  <span class="file-icon">◐</span>
-                  <span class="file-text">CHOOSE FILE</span>
-                </label>
+              <div class="resource-grid">
+                <div class="resource-item">
+                  <label class="resource-label">CAPS</label>
+                  <input type="number" id="caps-input" class="resource-input pipboy-input" min="0" max="999999" placeholder="0">
+                  <button class="resource-btn btn-primary" onclick="updateResource('Nuka')">SET</button>
+                </div>
+                <div class="resource-item">
+                  <label class="resource-label">NUKA QUANTUM</label>
+                  <input type="number" id="quantum-input" class="resource-input pipboy-input" min="0" max="9999" placeholder="0">
+                  <button class="resource-btn btn-primary" onclick="updateResource('NukaColaQuantum')">SET</button>
+                </div>
+                <div class="resource-item">
+                  <label class="resource-label">POKER CHIPS</label>
+                  <input type="number" id="chips-input" class="resource-input pipboy-input" min="0" max="9999" placeholder="0">
+                  <button class="resource-btn btn-primary" onclick="updateResource('PokerChip')">SET</button>
+                </div>
               </div>
-              <div class="operation-info">
-                <p>Encrypts JSON files back to Fallout Shelter save format</p>
-                <p class="file-type">Supported: .json files</p>
+              <div class="editor-actions">
+                <button class="btn-primary" onclick="saveAndDownload()">SAVE</button>
               </div>
             </div>
           </div>
         </div>
 
+        
         <div class="content-section" id="about-section">
           <div class="section-header">
             <h2>ABOUT PIP-BOY</h2>
@@ -143,15 +141,15 @@
             </div>
             <div class="about-item">
               <span class="about-label">MODULE:</span>
-              <span class="about-value">FSSaveDecrypt v1.0</span>
+              <span class="about-value">FSSaveEdit v1.0</span>
             </div>
             <div class="about-item">
               <span class="about-label">PURPOSE:</span>
-              <span class="about-value">SAVE FILE MANAGEMENT</span>
+              <span class="about-value">SAVE FILE EDITING</span>
             </div>
             <div class="about-description">
-              <p>This Pip-Boy module provides secure decryption and encryption services for Vault-Tec approved save files.</p>
-              <p>All operations are logged and monitored for vault security compliance.</p>
+              <p>This Pip-Boy module provides secure editing services for Vault-Tec approved save files.</p>
+              <p>All modifications are applied and downloaded securely for vault security compliance.</p>
             </div>
           </div>
         </div>
@@ -193,10 +191,8 @@
         // Update MODE display
         const modeValue = document.querySelector('.status-item:nth-child(4) .status-value');
         const sectionName = this.getAttribute('data-section');
-        if (sectionName === 'decrypt') {
-          modeValue.textContent = 'DECRYPT';
-        } else if (sectionName === 'encrypt') {
-          modeValue.textContent = 'ENCRYPT';
+        if (sectionName === 'editor') {
+          modeValue.textContent = 'EDITOR';
         } else {
           modeValue.textContent = 'IDLE';
         }
@@ -211,6 +207,126 @@
         label.querySelector('.file-text').textContent = fileName;
       });
     });
+
+    // Save file handling
+    let currentSaveData = null;
+    let currentFileName = '';
+
+    // Add file input event listener for save file
+    document.getElementById('sav_file').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        currentFileName = file.name;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            decryptSaveFile(event.target.result);
+          } catch (error) {
+            alert('Error loading save file: ' + error.message);
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    function decryptSaveFile(base64Str) {
+      try {
+        const cipherBits = sjcl.codec.base64.toBits(base64Str);
+        const prp = new sjcl.cipher.aes([2815074099, 1725469378, 4039046167, 874293617, 3063605751, 3133984764, 4097598161, 3620741625]);
+        const iv = sjcl.codec.hex.toBits("7475383967656A693334307438397532");
+        const plainBits = sjcl.mode.cbc.decrypt(prp, cipherBits, iv);
+        const jsonStr = sjcl.codec.utf8String.fromBits(plainBits);
+        
+        currentSaveData = JSON.parse(jsonStr);
+        
+        // Extract and display vault ID
+        if (currentSaveData.vault && currentSaveData.vault.VaultName) {
+          const vaultId = currentSaveData.vault.VaultName;
+          document.querySelector('.status-item:nth-child(1) .status-value').textContent = vaultId;
+        }
+        
+        // Show resource editor
+        document.getElementById('resource-editor').style.display = 'block';
+        
+        // Load current resource values
+        loadResourceValues();
+        
+        alert('Save file loaded successfully!');
+      } catch (error) {
+        throw new Error('Failed to decrypt save file: ' + error.message);
+      }
+    }
+
+    function loadResourceValues() {
+      if (!currentSaveData || !currentSaveData.vault || !currentSaveData.vault.storage || !currentSaveData.vault.storage.resources) {
+        return;
+      }
+      
+      const resources = currentSaveData.vault.storage.resources;
+      
+      document.getElementById('caps-input').value = resources.Nuka || 0;
+      document.getElementById('quantum-input').value = resources.NukaColaQuantum || 0;
+      document.getElementById('chips-input').value = resources.PokerChip || 0;
+    }
+
+    function updateResource(resourceType) {
+      if (!currentSaveData) {
+        alert('Please load a save file first!');
+        return;
+      }
+      
+      let value;
+      switch (resourceType) {
+        case 'Nuka':
+          value = parseInt(document.getElementById('caps-input').value) || 0;
+          break;
+        case 'NukaColaQuantum':
+          value = parseInt(document.getElementById('quantum-input').value) || 0;
+          break;
+        case 'PokerChip':
+          value = parseInt(document.getElementById('chips-input').value) || 0;
+          break;
+      }
+      
+      if (!currentSaveData.vault.storage.resources) {
+        currentSaveData.vault.storage.resources = {};
+      }
+      
+      currentSaveData.vault.storage.resources[resourceType] = value;
+      alert(`${resourceType} updated to ${value}!`);
+    }
+
+    function saveAndDownload() {
+      if (!currentSaveData) {
+        alert('No save file loaded!');
+        return;
+      }
+      
+      try {
+        // Apply all resource values
+        currentSaveData.vault.storage.resources.Nuka = parseInt(document.getElementById('caps-input').value) || 0;
+        currentSaveData.vault.storage.resources.NukaColaQuantum = parseInt(document.getElementById('quantum-input').value) || 0;
+        currentSaveData.vault.storage.resources.PokerChip = parseInt(document.getElementById('chips-input').value) || 0;
+        
+        // Create and download save file
+        const compactJsonStr = JSON.stringify(currentSaveData);
+        const plainBits = sjcl.codec.utf8String.toBits(compactJsonStr);
+        const prp = new sjcl.cipher.aes([2815074099, 1725469378, 4039046167, 874293617, 3063605751, 3133984764, 4097598161, 3620741625]);
+        const iv = sjcl.codec.hex.toBits("7475383967656A693334307438397532");
+        const cipherBits = sjcl.mode.cbc.encrypt(prp, plainBits, iv);
+        const base64Str = sjcl.codec.base64.fromBits(cipherBits);
+        
+        const blob = new Blob([base64Str], { type: "text/plain" });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = currentFileName;
+        link.click();
+        
+        alert('Save file created and downloaded successfully!');
+      } catch (error) {
+        alert('Error creating save file: ' + error.message);
+      }
+    }
 
   </script>
 </body>
