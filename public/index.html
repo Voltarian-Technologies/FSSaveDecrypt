@@ -103,18 +103,27 @@
               <div class="resource-grid">
                 <div class="resource-item">
                   <label class="resource-label">CAPS</label>
-                  <input type="number" id="caps-input" class="resource-input pipboy-input" min="0" max="999999" placeholder="0">
-                  <button class="resource-btn btn-primary" onclick="updateResource('Nuka')">SET</button>
+                  <div class="custom-input-control">
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('caps', -1)">◄</button>
+                    <input type="number" id="caps-input" class="resource-input pipboy-input" min="0" max="999999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('caps', 1)">►</button>
+                  </div>
                 </div>
                 <div class="resource-item">
                   <label class="resource-label">NUKA QUANTUM</label>
-                  <input type="number" id="quantum-input" class="resource-input pipboy-input" min="0" max="9999" placeholder="0">
-                  <button class="resource-btn btn-primary" onclick="updateResource('NukaColaQuantum')">SET</button>
+                  <div class="custom-input-control">
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('quantum', -1)">◄</button>
+                    <input type="number" id="quantum-input" class="resource-input pipboy-input" min="0" max="9999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('quantum', 1)">►</button>
+                  </div>
                 </div>
                 <div class="resource-item">
                   <label class="resource-label">POKER CHIPS</label>
-                  <input type="number" id="chips-input" class="resource-input pipboy-input" min="0" max="9999" placeholder="0">
-                  <button class="resource-btn btn-primary" onclick="updateResource('PokerChip')">SET</button>
+                  <div class="custom-input-control">
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('chips', -1)">◄</button>
+                    <input type="number" id="chips-input" class="resource-input pipboy-input" min="0" max="9999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('chips', 1)">►</button>
+                  </div>
                 </div>
               </div>
               <div class="editor-actions">
@@ -133,7 +142,7 @@
           <div class="about-content">
             <div class="about-item">
               <span class="about-label">DEVICE:</span>
-              <span class="about-value">PIP-BOY 55D</span>
+              <span class="about-value">PIP-BOY 55</span>
             </div>
             <div class="about-item">
               <span class="about-label">MANUFACTURER:</span>
@@ -208,7 +217,92 @@
       });
     });
 
-    // Save file handling
+    // Custom alert system
+    function showPipboyAlert(message) {
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'pipboy-overlay';
+      
+      // Create alert box
+      const alertBox = document.createElement('div');
+      alertBox.className = 'pipboy-alert';
+      
+      // Create content
+      const content = document.createElement('div');
+      content.className = 'pipboy-alert-content';
+      content.textContent = message;
+      
+      // Create close button
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'pipboy-alert-close';
+      closeBtn.textContent = 'CLOSE';
+      closeBtn.onclick = function() {
+        document.body.removeChild(overlay);
+        document.body.removeChild(alertBox);
+      };
+      
+      // Assemble alert
+      alertBox.appendChild(content);
+      alertBox.appendChild(closeBtn);
+      
+      // Add to page
+      document.body.appendChild(overlay);
+      document.body.appendChild(alertBox);
+      
+      // Auto-close after 3 seconds
+      setTimeout(function() {
+        if (document.body.contains(overlay)) {
+          document.body.removeChild(overlay);
+          document.body.removeChild(alertBox);
+        }
+      }, 3000);
+    }
+
+    // Arrow button functionality
+    function adjustValue(resource, delta) {
+      const inputMap = {
+        'caps': 'caps-input',
+        'quantum': 'quantum-input',
+        'chips': 'chips-input'
+      };
+      
+      const resourceMap = {
+        'caps': 'Nuka',
+        'quantum': 'NukaColaQuantum',
+        'chips': 'PokerChip'
+      };
+      
+      const maxMap = {
+        'caps': 999999,
+        'quantum': 9999,
+        'chips': 9999
+      };
+      
+      const inputId = inputMap[resource];
+      const resourceType = resourceMap[resource];
+      const maxValue = maxMap[resource];
+      
+      if (!inputId) return;
+      
+      const input = document.getElementById(inputId);
+      let currentValue = parseInt(input.value) || 0;
+      let newValue = currentValue + delta;
+      
+      // Apply bounds
+      if (newValue < 0) newValue = 0;
+      if (newValue > maxValue) newValue = maxValue;
+      
+      input.value = newValue;
+      
+      // Update save data immediately
+      if (currentSaveData && currentSaveData.vault && currentSaveData.vault.storage) {
+        if (!currentSaveData.vault.storage.resources) {
+          currentSaveData.vault.storage.resources = {};
+        }
+        currentSaveData.vault.storage.resources[resourceType] = newValue;
+        showPipboyAlert(`${resourceType} updated to ${newValue}!`);
+      }
+    }
     let currentSaveData = null;
     let currentFileName = '';
 
@@ -251,9 +345,9 @@
         // Load current resource values
         loadResourceValues();
         
-        alert('Save file loaded successfully!');
+        showPipboyAlert('Save file loaded successfully!');
       } catch (error) {
-        throw new Error('Failed to decrypt save file: ' + error.message);
+        showPipboyAlert('Failed to decrypt save file: ' + error.message);
       }
     }
 
@@ -269,36 +363,9 @@
       document.getElementById('chips-input').value = resources.PokerChip || 0;
     }
 
-    function updateResource(resourceType) {
-      if (!currentSaveData) {
-        alert('Please load a save file first!');
-        return;
-      }
-      
-      let value;
-      switch (resourceType) {
-        case 'Nuka':
-          value = parseInt(document.getElementById('caps-input').value) || 0;
-          break;
-        case 'NukaColaQuantum':
-          value = parseInt(document.getElementById('quantum-input').value) || 0;
-          break;
-        case 'PokerChip':
-          value = parseInt(document.getElementById('chips-input').value) || 0;
-          break;
-      }
-      
-      if (!currentSaveData.vault.storage.resources) {
-        currentSaveData.vault.storage.resources = {};
-      }
-      
-      currentSaveData.vault.storage.resources[resourceType] = value;
-      alert(`${resourceType} updated to ${value}!`);
-    }
-
     function saveAndDownload() {
       if (!currentSaveData) {
-        alert('No save file loaded!');
+        showPipboyAlert('No save file loaded!');
         return;
       }
       
@@ -322,9 +389,9 @@
         link.download = currentFileName;
         link.click();
         
-        alert('Save file created and downloaded successfully!');
+        showPipboyAlert('Save file created and downloaded successfully!');
       } catch (error) {
-        alert('Error creating save file: ' + error.message);
+        showPipboyAlert('Error creating save file: ' + error.message);
       }
     }
 
