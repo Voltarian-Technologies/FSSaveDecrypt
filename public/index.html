@@ -105,7 +105,7 @@
                   <label class="resource-label">CAPS</label>
                   <div class="custom-input-control">
                     <button class="arrow-btn arrow-left" onclick="adjustValue('caps', -1)">◄</button>
-                    <input type="number" id="caps-input" class="resource-input pipboy-input" min="0" max="999999" value="0" readonly>
+                    <input type="number" id="caps-input" class="resource-input" min="0" max="999999" value="0" readonly>
                     <button class="arrow-btn arrow-right" onclick="adjustValue('caps', 1)">►</button>
                   </div>
                   <button class="resource-btn btn-primary" onclick="updateResource('Nuka')">SET</button>
@@ -114,7 +114,7 @@
                   <label class="resource-label">NUKA QUANTUM</label>
                   <div class="custom-input-control">
                     <button class="arrow-btn arrow-left" onclick="adjustValue('quantum', -1)">◄</button>
-                    <input type="number" id="quantum-input" class="resource-input pipboy-input" min="0" max="9999" value="0" readonly>
+                    <input type="number" id="quantum-input" class="resource-input" min="0" max="9999" value="0" readonly>
                     <button class="arrow-btn arrow-right" onclick="adjustValue('quantum', 1)">►</button>
                   </div>
                   <button class="resource-btn btn-primary" onclick="updateResource('NukaColaQuantum')">SET</button>
@@ -123,7 +123,7 @@
                   <label class="resource-label">POKER CHIPS</label>
                   <div class="custom-input-control">
                     <button class="arrow-btn arrow-left" onclick="adjustValue('chips', -1)">◄</button>
-                    <input type="number" id="chips-input" class="resource-input pipboy-input" min="0" max="9999" value="0" readonly>
+                    <input type="number" id="chips-input" class="resource-input" min="0" max="9999" value="0" readonly>
                     <button class="arrow-btn arrow-right" onclick="adjustValue('chips', 1)">►</button>
                   </div>
                   <button class="resource-btn btn-primary" onclick="updateResource('PokerChip')">SET</button>
@@ -210,6 +210,27 @@
         }
       });
     });
+
+    // Test function to verify display works
+    function testDisplay() {
+      console.log('Testing display...');
+      const capsInput = document.getElementById('caps-input');
+      const quantumInput = document.getElementById('quantum-input');
+      const chipsInput = document.getElementById('chips-input');
+      
+      if (capsInput) {
+        capsInput.value = '999';
+        console.log('Caps input set to:', capsInput.value);
+      }
+      if (quantumInput) {
+        quantumInput.value = '888';
+        console.log('Quantum input set to:', quantumInput.value);
+      }
+      if (chipsInput) {
+        chipsInput.value = '777';
+        console.log('Chips input set to:', chipsInput.value);
+      }
+    }
 
     // File input styling
     document.querySelectorAll('.pipboy-input').forEach(input => {
@@ -358,6 +379,9 @@
         
         // Load current resource values
         loadResourceValues();
+        
+        // Test display functionality
+        setTimeout(testDisplay, 500);
         
         showPipboyAlert('Save file loaded successfully!');
       } catch (error) {
