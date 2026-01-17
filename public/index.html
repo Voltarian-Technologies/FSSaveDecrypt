@@ -120,13 +120,31 @@
                   <button class="resource-btn btn-primary" onclick="updateResource('NukaColaQuantum')">SET</button>
                 </div>
                 <div class="resource-item">
-                  <label class="resource-label">POKER CHIPS</label>
+                  <label class="resource-label">FOOD</label>
                   <div class="custom-input-control">
-                    <button class="arrow-btn arrow-left" onclick="adjustValue('chips', -1)">◄</button>
-                    <input type="number" id="chips-input" class="resource-input" min="0" max="9999" value="0" readonly>
-                    <button class="arrow-btn arrow-right" onclick="adjustValue('chips', 1)">►</button>
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('food', -1)">◄</button>
+                    <input type="number" id="food-input" class="resource-input" min="0" max="9999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('food', 1)">►</button>
                   </div>
-                  <button class="resource-btn btn-primary" onclick="updateResource('PokerChip')">SET</button>
+                  <button class="resource-btn btn-primary" onclick="updateResource('Food')">SET</button>
+                </div>
+                <div class="resource-item">
+                  <label class="resource-label">POWER</label>
+                  <div class="custom-input-control">
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('energy', -1)">◄</button>
+                    <input type="number" id="energy-input" class="resource-input" min="0" max="9999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('energy', 1)">►</button>
+                  </div>
+                  <button class="resource-btn btn-primary" onclick="updateResource('Energy')">SET</button>
+                </div>
+                <div class="resource-item">
+                  <label class="resource-label">WATER</label>
+                  <div class="custom-input-control">
+                    <button class="arrow-btn arrow-left" onclick="adjustValue('water', -1)">◄</button>
+                    <input type="number" id="water-input" class="resource-input" min="0" max="9999" value="0" readonly>
+                    <button class="arrow-btn arrow-right" onclick="adjustValue('water', 1)">►</button>
+                  </div>
+                  <button class="resource-btn btn-primary" onclick="updateResource('Water')">SET</button>
                 </div>
               </div>
               <div class="editor-actions">
@@ -287,13 +305,17 @@
       const inputMap = {
         'caps': 'caps-input',
         'quantum': 'quantum-input',
-        'chips': 'chips-input'
+        'food': 'food-input',
+        'energy': 'energy-input',
+        'water': 'water-input'
       };
       
       const maxMap = {
         'caps': 999999,
         'quantum': 9999,
-        'chips': 9999
+        'food': 9999,
+        'energy': 9999,
+        'water': 9999
       };
       
       const inputId = inputMap[resource];
@@ -322,7 +344,9 @@
       const inputMap = {
         'Nuka': 'caps-input',
         'NukaColaQuantum': 'quantum-input',
-        'PokerChip': 'chips-input'
+        'Food': 'food-input',
+        'Energy': 'energy-input',
+        'Water': 'water-input'
       };
       
       const inputId = inputMap[resourceType];
@@ -400,13 +424,30 @@
       
       const capsInput = document.getElementById('caps-input');
       const quantumInput = document.getElementById('quantum-input');
-      const chipsInput = document.getElementById('chips-input');
+      const foodInput = document.getElementById('food-input');
+      const energyInput = document.getElementById('energy-input');
+      const waterInput = document.getElementById('water-input');
       
-      if (capsInput) capsInput.value = resources.Nuka || 0;
-      if (quantumInput) quantumInput.value = resources.NukaColaQuantum || 0;
-      if (chipsInput) chipsInput.value = resources.PokerChip || 0;
-      
-      console.log('Set values - Caps:', resources.Nuka, 'Quantum:', resources.NukaColaQuantum, 'Chips:', resources.PokerChip);
+      if (capsInput) {
+        capsInput.value = resources.Nuka || 0;
+        console.log('Set caps to:', resources.Nuka || 0);
+      }
+      if (quantumInput) {
+        quantumInput.value = resources.NukaColaQuantum || 0;
+        console.log('Set quantum to:', resources.NukaColaQuantum || 0);
+      }
+      if (foodInput) {
+        foodInput.value = resources.Food || 0;
+        console.log('Set food to:', resources.Food || 0);
+      }
+      if (energyInput) {
+        energyInput.value = resources.Energy || 0;
+        console.log('Set energy to:', resources.Energy || 0);
+      }
+      if (waterInput) {
+        waterInput.value = resources.Water || 0;
+        console.log('Set water to:', resources.Water || 0);
+      }
     }
 
     function saveAndDownload() {
@@ -419,7 +460,9 @@
         // Apply all resource values
         currentSaveData.vault.storage.resources.Nuka = parseInt(document.getElementById('caps-input').value) || 0;
         currentSaveData.vault.storage.resources.NukaColaQuantum = parseInt(document.getElementById('quantum-input').value) || 0;
-        currentSaveData.vault.storage.resources.PokerChip = parseInt(document.getElementById('chips-input').value) || 0;
+        currentSaveData.vault.storage.resources.Food = parseInt(document.getElementById('food-input').value) || 0;
+        currentSaveData.vault.storage.resources.Energy = parseInt(document.getElementById('energy-input').value) || 0;
+        currentSaveData.vault.storage.resources.Water = parseInt(document.getElementById('water-input').value) || 0;
         
         // Create and download save file
         const compactJsonStr = JSON.stringify(currentSaveData);
