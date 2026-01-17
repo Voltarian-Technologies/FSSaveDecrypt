@@ -15,7 +15,7 @@
 
 </head>
 
-<body onload="fossdLoad();">
+<body>
   <div class="pipboy-frame">
     <div class="pipboy-screen">
       <div class="pipboy-header">
@@ -367,14 +367,22 @@
 
     function loadResourceValues() {
       if (!currentSaveData || !currentSaveData.vault || !currentSaveData.vault.storage || !currentSaveData.vault.storage.resources) {
+        console.log('Cannot load resource values - missing data structure');
         return;
       }
       
       const resources = currentSaveData.vault.storage.resources;
+      console.log('Loading resources:', resources);
       
-      document.getElementById('caps-input').value = resources.Nuka || 0;
-      document.getElementById('quantum-input').value = resources.NukaColaQuantum || 0;
-      document.getElementById('chips-input').value = resources.PokerChip || 0;
+      const capsInput = document.getElementById('caps-input');
+      const quantumInput = document.getElementById('quantum-input');
+      const chipsInput = document.getElementById('chips-input');
+      
+      if (capsInput) capsInput.value = resources.Nuka || 0;
+      if (quantumInput) quantumInput.value = resources.NukaColaQuantum || 0;
+      if (chipsInput) chipsInput.value = resources.PokerChip || 0;
+      
+      console.log('Set values - Caps:', resources.Nuka, 'Quantum:', resources.NukaColaQuantum, 'Chips:', resources.PokerChip);
     }
 
     function saveAndDownload() {
