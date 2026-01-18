@@ -229,27 +229,6 @@
       });
     });
 
-    // Test function to verify display works
-    function testDisplay() {
-      console.log('Testing display...');
-      const capsInput = document.getElementById('caps-input');
-      const quantumInput = document.getElementById('quantum-input');
-      const chipsInput = document.getElementById('chips-input');
-      
-      if (capsInput) {
-        capsInput.value = '999';
-        console.log('Caps input set to:', capsInput.value);
-      }
-      if (quantumInput) {
-        quantumInput.value = '888';
-        console.log('Quantum input set to:', quantumInput.value);
-      }
-      if (chipsInput) {
-        chipsInput.value = '777';
-        console.log('Chips input set to:', chipsInput.value);
-      }
-    }
-
     // File input styling
     document.querySelectorAll('.pipboy-input').forEach(input => {
       input.addEventListener('change', function() {
@@ -301,6 +280,8 @@
     }
 
     // Arrow button functionality - only adjusts display, not save data
+    let intervalMap = {};
+    
     function adjustValue(resource, delta) {
       const inputMap = {
         'caps': 'caps-input',
@@ -333,6 +314,76 @@
       
       input.value = newValue;
     }
+
+    // Mouse event handlers for auto-increment
+    function startIncrement(resource, delta) {
+      // Clear any existing interval
+      if (intervalMap[resource]) {
+        clearInterval(intervalMap[resource]);
+      }
+      
+      let incrementDelta = delta;
+      let timeElapsed = 0;
+      
+      intervalMap[resource] = setInterval(() => {
+        timeElapsed += 100;
+        
+        if (timeElapsed < 10000) { // First 10 seconds: +1 every second
+          incrementDelta = delta;
+        } else if (timeElapsed < 20000) { // Next 10 seconds: +10 every second
+          incrementDelta = delta * 10;
+        } else { // After 20 seconds: +100 every second
+          incrementDelta = delta * 100;
+        }
+        
+        adjustValue(resource, incrementDelta);
+      }, 100);
+    }
+
+    function stopIncrement(resource) {
+      if (intervalMap[resource]) {
+        clearInterval(intervalMap[resource]);
+        delete intervalMap[resource];
+      }
+    }
+
+    // Add mouse event listeners to arrow buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const arrowButtons = document.querySelectorAll('.arrow-btn');
+      
+      arrowButtons.forEach(button => {
+        button.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          const onclick = this.getAttribute('onclick');
+          const resourceMatch = onclick.match(/adjustValue\('([^']+)'/);
+          if (resourceMatch) {
+            const resource = resourceMatch[1];
+            const delta = onclick.includes("1)") ? 1 : -1;
+            startIncrement(resource, delta);
+          }
+        });
+        
+        button.addEventListener('mouseup', function(e) {
+          e.preventDefault();
+          const onclick = this.getAttribute('onclick');
+          const resourceMatch = onclick.match(/adjustValue\('([^']+)'/);
+          if (resourceMatch) {
+            const resource = resourceMatch[1];
+            stopIncrement(resource);
+          }
+        });
+        
+        button.addEventListener('mouseleave', function(e) {
+          e.preventDefault();
+          const onclick = this.getAttribute('onclick');
+          const resourceMatch = onclick.match(/adjustValue\('([^']+)'/);
+          if (resourceMatch) {
+            const resource = resourceMatch[1];
+            stopIncrement(resource);
+          }
+        });
+      });
+    });
 
     // Update resource function - only saves when SET is clicked
     function updateResource(resourceType) {
@@ -403,9 +454,6 @@
         
         // Load current resource values
         loadResourceValues();
-        
-        // Test display functionality
-        setTimeout(testDisplay, 500);
         
         showPipboyAlert('Save file loaded successfully!');
       } catch (error) {
